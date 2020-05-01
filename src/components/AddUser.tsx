@@ -70,7 +70,7 @@ const AddUser = (props: any) => {
   };
 
   const addUser = async (): Promise<any> => {
-    const response = await fetch(`http://demo-api.hikmahealth.org/admin_api/user`, {
+    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/user`, {
       method: 'POST',
       headers: {
         Authorization: state.token,

@@ -84,7 +84,7 @@ const Home = (props: any) => {
   }
 
   const deleteUser = async (email: string): Promise<any> => {
-    const response = await fetch(`http://demo-api.hikmahealth.org/admin_api/user`, {
+    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/user`, {
 
       method: 'DELETE',
       headers: {
@@ -99,7 +99,7 @@ const Home = (props: any) => {
   }
 
   const getUsers = async (): Promise<User[]> => {
-    const response = await fetch(`http://demo-api.hikmahealth.org/admin_api/all_users`, {
+    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/all_users`, {
       method: 'GET',
       headers: {
         Authorization: token
