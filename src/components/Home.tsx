@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import User from '../types/User'
 import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, ListItemIcon, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     btn: {
       margin: theme.spacing(2),
-      flexGrow: 1,
     }
   }));
 
@@ -35,7 +34,9 @@ const Home = (props: any) => {
   }
   const [token, setToken] = useState(getToken);
   const [users, setUsers] = useState([]);
-  const [deleteUserEmail, setDeleteUserEmail] = useState('')
+  const [deleteUserEmail, setDeleteUserEmail] = useState('');
+  const [fileChosen, setFileChosen] = useState('');
+  const uploadInput: any = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getUsers().then((response: any) => {
@@ -46,7 +47,7 @@ const Home = (props: any) => {
     })
   }, [])
 
-  
+
 
   const handleAddUser = () => {
     history.push({
@@ -99,13 +100,33 @@ const Home = (props: any) => {
   }
 
   const getUsers = async (): Promise<User[]> => {
-    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/all_users`, {
+    const response = await fetch(`http://demo-api.hikmahealth.org/admin_api/all_users`, {
       method: 'GET',
       headers: {
         Authorization: token
       }
     });
     return await response.json();
+  }
+
+  const handleUploadImage = () => {
+
+    const data = new FormData();
+    if (!!uploadInput.current) {
+      data.append('file', uploadInput.current.files[0]);
+    }
+
+    fetch('http://demo-api.hikmahealth.org/admin_api/upload', {
+      method: 'POST',
+      headers: {
+        Authorization: token
+      },
+      body: data,
+    }).then((response) => {
+      response.json().then((body) => {
+        console.log('body: ', body)
+      });
+    });
   }
 
   const UserList = () => {
@@ -133,10 +154,44 @@ const Home = (props: any) => {
     )
   }
 
+  const FileUpload = () => {
+    return (
+      <div>
+
+        <Button
+          variant="contained"
+          size="large"
+          color="secondary"
+          className={classes.btn}
+          component="label">
+          Choose a file
+        <input type="file" ref={uploadInput} onInput={() => setFileChosen(uploadInput.current.files[0].name)} style={{ display: 'none' }} />
+
+        </Button>
+
+
+        {!!fileChosen ? <label>{fileChosen}</label> : <div />}
+
+
+        {!!fileChosen ?
+          <Button
+            variant="contained"
+            size="large"
+            color="secondary"
+            className={classes.btn}
+            onClick={handleUploadImage}>
+            Upload
+            </Button>
+          : <div />}
+      </div>
+    )
+  }
+
   return !!token ? (
     <React.Fragment>
       <div className={classes.container}>
         <h3 className={classes.btn}>Welcome, {loggedInEmail}</h3>
+        <FileUpload />
         <Button
           variant="contained"
           size="large"
@@ -144,7 +199,7 @@ const Home = (props: any) => {
           className={classes.btn}
           onClick={() => handleAddUser()}>
           Add User
-      </Button>
+        </Button>
         <UserList />
         <Dialog
           open={!!deleteUserEmail}
