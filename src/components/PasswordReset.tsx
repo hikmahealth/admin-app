@@ -76,7 +76,7 @@ const PasswordReset = (props: any) => {
   };
 
   const changePassword = async (): Promise<any> => {
-    const response = await fetch(`http://demo-api.hikmahealth.org/admin_api/change_password`, {
+    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/change_password`, {
       method: 'POST',
       headers: {
         Authorization: state.token
