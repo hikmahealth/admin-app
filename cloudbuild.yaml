@@ -4,6 +4,5 @@ steps:
           '--build-arg', 'app_env_arg=prod',
           '--build-arg', 'instance_url_arg=${_INSTANCE_URL}',
           '.' ]
-  dir: app
 images:
 - 'gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA'
