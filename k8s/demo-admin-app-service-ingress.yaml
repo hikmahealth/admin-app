@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo-admin-app-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: demo-admin-app-ip
+    networking.gke.io/managed-certificates: demo-admin-app-certificate
+spec:
+  backend:
+    serviceName: demo-admin-app-nodeport-service
+    servicePort: 80
