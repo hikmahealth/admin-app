@@ -100,7 +100,7 @@ const Home = (props: any) => {
   }
 
   const getUsers = async (): Promise<User[]> => {
-    const response = await fetch(`http://demo-api.hikmahealth.org/admin_api/all_users`, {
+    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/all_users`, {
       method: 'GET',
       headers: {
         Authorization: token
@@ -116,7 +116,7 @@ const Home = (props: any) => {
       data.append('file', uploadInput.current.files[0]);
     }
 
-    fetch('http://demo-api.hikmahealth.org/admin_api/upload', {
+    fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/upload`, {
       method: 'POST',
       headers: {
         Authorization: token
