@@ -110,7 +110,6 @@ const Home = (props: any) => {
   }
 
   const handleUploadImage = () => {
-
     const data = new FormData();
     if (!!uploadInput.current) {
       data.append('file', uploadInput.current.files[0]);
@@ -157,14 +156,13 @@ const Home = (props: any) => {
   const FileUpload = () => {
     return (
       <div>
-
         <Button
           variant="contained"
           size="large"
-          color="secondary"
+          color="default"
           className={classes.btn}
           component="label">
-          Choose a file
+          Upload Patient Data
         <input type="file" ref={uploadInput} onInput={() => setFileChosen(uploadInput.current.files[0].name)} style={{ display: 'none' }} />
 
         </Button>
@@ -174,14 +172,24 @@ const Home = (props: any) => {
 
 
         {!!fileChosen ?
-          <Button
-            variant="contained"
-            size="large"
-            color="secondary"
-            className={classes.btn}
-            onClick={handleUploadImage}>
-            Upload
+          <div>
+            <Button
+              variant="contained"
+              size="small"
+              color="default"
+              className={classes.btn}
+              onClick={() => setFileChosen('')}>
+              Cancel
             </Button>
+            <Button
+              variant="contained"
+              size="small"
+              color="default"
+              className={classes.btn}
+              onClick={handleUploadImage}>
+              Upload
+            </Button>
+          </div>
           : <div />}
       </div>
     )
@@ -195,7 +203,7 @@ const Home = (props: any) => {
         <Button
           variant="contained"
           size="large"
-          color="secondary"
+          color="default"
           className={classes.btn}
           onClick={() => handleAddUser()}>
           Add User

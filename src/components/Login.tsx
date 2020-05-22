@@ -129,7 +129,7 @@ const Login = () => {
               <Button
                 variant="contained"
                 size="large"
-                color="secondary"
+                color="default"
                 className={classes.loginBtn}
                 onClick={() => handleLogin()}
                 disabled={isButtonDisabled}>
