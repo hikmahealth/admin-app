@@ -35,7 +35,7 @@ const Home = (props: any) => {
   const [token, setToken] = useState(getToken);
   const [users, setUsers] = useState([]);
   const [deleteUserEmail, setDeleteUserEmail] = useState('');
-  const [fileChosen, setFileChosen] = useState('');
+  const [fileChosen, setFileChosen] = useState();
   const uploadInput: any = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -111,8 +111,8 @@ const Home = (props: any) => {
 
   const handleUploadImage = () => {
     const data = new FormData();
-    if (!!uploadInput.current) {
-      data.append('file', uploadInput.current.files[0]);
+    if (!!fileChosen) {
+      data.append('file', fileChosen);
     }
 
     fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/upload`, {
@@ -163,12 +163,12 @@ const Home = (props: any) => {
           className={classes.btn}
           component="label">
           Upload Patient Data
-        <input type="file" ref={uploadInput} onInput={() => setFileChosen(uploadInput.current.files[0].name)} style={{ display: 'none' }} />
+        <input type="file" ref={uploadInput} onInput={() => setFileChosen(uploadInput.current.files[0])} style={{ display: 'none' }} />
 
         </Button>
 
 
-        {!!fileChosen ? <label>{fileChosen}</label> : <div />}
+        {!!fileChosen ? <label>{fileChosen.name}</label> : <div />}
 
 
         {!!fileChosen ?
@@ -178,7 +178,7 @@ const Home = (props: any) => {
               size="small"
               color="default"
               className={classes.btn}
-              onClick={() => setFileChosen('')}>
+              onClick={() => setFileChosen(null)}>
               Cancel
             </Button>
             <Button
