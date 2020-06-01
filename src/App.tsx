@@ -7,16 +7,6 @@ import AddUser from './components/AddUser';
 
 const App: React.FC = () => {
 
-  // const [state, setState] = useState({
-  //   currentUser: null,
-  //   isAuthenticated: false,
-  //   wasInitialized: false
-  // })
-
-  // useEffect(() => {
-  //   // setLoggedInUser(localStorage.getItem('username'))
-  // }, [localStorage.getItem('username')])
-
   return (
     <main>
       <Router>
@@ -36,7 +26,7 @@ const App: React.FC = () => {
             path='/add-user'
             render={(props) => <AddUser {...props} />}
           />
-          <Route path='/' >
+          <Route exact path='/' >
             <Redirect to='/login' />
           </Route>
 

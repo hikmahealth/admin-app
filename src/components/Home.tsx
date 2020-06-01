@@ -5,6 +5,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory, Redirect } from 'react-router';
+import download from 'downloadjs';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,6 +22,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     btn: {
       margin: theme.spacing(2),
+    },
+    btnRow: {
+      margin: theme.spacing(2),
+      width: '100%'
+    },
+    btnRowContainer: {
+      flexDirection: "row",
+      justifyContent: 'stretch',
+      display: 'flex'
     }
   }));
 
@@ -57,6 +67,19 @@ const Home = (props: any) => {
         token
       }
     })
+  }
+
+  const handleLogout = () => {
+    fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/logout`, {
+      method: 'POST',
+      headers: {
+        Authorization: token
+      },
+    }).then((response) => {
+      if (response.status === 200) {
+        setToken('')
+      }
+    });
   }
 
   const handleChangePassword = (user: User) => {
@@ -109,6 +132,19 @@ const Home = (props: any) => {
     return await response.json();
   }
 
+  const handleExportFile = () => {
+    fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/export`, {
+      method: 'GET',
+      headers: {
+        Authorization: token
+      }
+    }).then((response) => {
+      return response.blob()
+    }).then(blob => {
+      download(blob)
+    })
+  }
+
   const handleUploadImage = () => {
     const data = new FormData();
     if (!!fileChosen) {
@@ -122,9 +158,9 @@ const Home = (props: any) => {
       },
       body: data,
     }).then((response) => {
-      response.json().then((body) => {
-        console.log('body: ', body)
-      });
+      if (response.status === 200) {
+        setFileChosen(null)
+      }
     });
   }
 
@@ -170,7 +206,6 @@ const Home = (props: any) => {
 
         {!!fileChosen ? <label>{fileChosen.name}</label> : <div />}
 
-
         {!!fileChosen ?
           <div>
             <Button
@@ -198,16 +233,35 @@ const Home = (props: any) => {
   return !!token ? (
     <React.Fragment>
       <div className={classes.container}>
-        <h3 className={classes.btn}>Welcome, {loggedInEmail}</h3>
-        <FileUpload />
-        <Button
-          variant="contained"
-          size="large"
-          color="default"
-          className={classes.btn}
-          onClick={() => handleAddUser()}>
-          Add User
+        <h3 className={classes.btn}>Welcome, {loggedInEmail}
+          <Button
+            variant="contained"
+            size="large"
+            color="default"
+            className={classes.btn}
+            onClick={() => handleLogout()}>
+            Logout
         </Button>
+        </h3>
+        <FileUpload />
+        <div className={classes.btnRowContainer}>
+          <Button
+            variant="contained"
+            size="large"
+            color="default"
+            className={classes.btnRow}
+            onClick={() => handleAddUser()}>
+            Add User
+        </Button>
+          <Button
+            variant="contained"
+            size="large"
+            color="default"
+            className={classes.btnRow}
+            onClick={() => handleExportFile()}>
+            Export
+        </Button>
+        </div>
         <UserList />
         <Dialog
           open={!!deleteUserEmail}
