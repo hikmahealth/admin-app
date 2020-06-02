@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA-ema',
+          '--build-arg', 'app_env_arg=prod',
+          '--build-arg', 'instance_url_arg=${_INSTANCE_URL}',
+          '.' ]
+- name: 'gcr.io/cloud-builders/kubectl'
+  env: ['CLOUDSDK_COMPUTE_ZONE=us-east1-c', 'CLOUDSDK_CONTAINER_CLUSTER=ema-cluster']
+  args: ['set', 'image', 'deployment/ema-admin-app',
+          'admin-app=gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA-ema']
+images:
+- 'gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA-ema'
