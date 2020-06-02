@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ema-admin-app-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ema-admin-app-ip
+    networking.gke.io/managed-certificates: ema-admin-app-certificate
+spec:
+  backend:
+    serviceName: ema-admin-app-nodeport-service
+    servicePort: 80
