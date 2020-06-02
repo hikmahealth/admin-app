@@ -134,7 +134,7 @@ const Home = (props: any) => {
 
   const handleExportFile = () => {
     fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/export`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         Authorization: token
       }
