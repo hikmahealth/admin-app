@@ -5,7 +5,6 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory, Redirect } from 'react-router';
-import download from 'downloadjs';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,6 +61,16 @@ const Home = (props: any) => {
   const handleAddUser = () => {
     history.push({
       pathname: '/add-user',
+      state: {
+        loggedInEmail,
+        token
+      }
+    })
+  }
+
+  const handleExportPatients = () => {
+    history.push({
+      pathname: '/export-patients',
       state: {
         loggedInEmail,
         token
@@ -130,19 +139,6 @@ const Home = (props: any) => {
       }
     });
     return await response.json();
-  }
-
-  const handleExportFile = () => {
-    fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/export`, {
-      method: 'POST',
-      headers: {
-        Authorization: token
-      }
-    }).then((response) => {
-      return response.blob()
-    }).then(blob => {
-      download(blob)
-    })
   }
 
   const handleUploadImage = () => {
@@ -258,8 +254,8 @@ const Home = (props: any) => {
             size="large"
             color="default"
             className={classes.btnRow}
-            onClick={() => handleExportFile()}>
-            Export
+            onClick={() => handleExportPatients()}>
+            Export Patient Data
         </Button>
         </div>
         <UserList />
