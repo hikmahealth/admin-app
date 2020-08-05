@@ -86,7 +86,7 @@ const PatientExport = (props: any) => {
   }
 
   const getPatients = async (): Promise<User[]> => {
-    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/all_users`, {
+    const response = await fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/all_patients`, {
       method: 'GET',
       headers: {
         Authorization: token
@@ -96,7 +96,7 @@ const PatientExport = (props: any) => {
   }
 
   const searchPatients = async () => {
-    fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/all_users`, {
+    fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/search_patients`, {
       method: 'POST',
       headers: {
         Authorization: token
