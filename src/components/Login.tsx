@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
 import { Redirect } from 'react-router-dom';
+import { Avatar } from '@material-ui/core';
+
+const theme = createMuiTheme({
+  typography: {
+    body2: {
+      fontSize: 25,
+    }
+  }
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,10 +32,14 @@ const useStyles = makeStyles((theme: Theme) =>
     header: {
       textAlign: 'center',
       background: '#31BBF3',
-      color: '#fff'
+      color: '#fff',
     },
     card: {
       marginTop: theme.spacing(10)
+    },
+    icon: {
+      height: 30,
+      width: 30
     }
   }),
 );
@@ -95,7 +108,13 @@ const Login = () => {
       <React.Fragment>
         <form className={classes.container} noValidate autoComplete="off">
           <Card className={classes.card}>
-            <CardHeader className={classes.header} title="Hikma Health Admin" />
+            <ThemeProvider theme={theme}>
+              <CardHeader className={classes.header} style={{ fontSize: "25px" }} title="Hikma Health Admin" avatar={
+                <Avatar>
+                  <img className={classes.icon} src={require("../Images/hikma-logo-no-text.png")} />
+                </Avatar>} />
+            </ThemeProvider>
+
             <CardContent>
               <div>
                 <TextField

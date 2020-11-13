@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import User from '../types/User'
-import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, ListItemIcon, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
+import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, ListItemIcon, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Avatar, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AppBar from '@material-ui/core/AppBar';
 import { useHistory, Redirect } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,6 +31,22 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "row",
       justifyContent: 'stretch',
       display: 'flex'
+    },
+    header: {
+      textAlign: 'center',
+      background: '#31BBF3',
+      color: '#fff',
+    },
+    headerRow: {
+      flexDirection: "row",
+      justifyContent: 'flex-start',
+      display: 'flex',
+      padding: 20,
+      alignItems: 'center'
+    },
+    icon: {
+      height: 30,
+      width: 30
     }
   }));
 
@@ -229,6 +246,16 @@ const Home = (props: any) => {
   return !!token ? (
     <React.Fragment>
       <div className={classes.container}>
+        <AppBar position='static' className={classes.header}>
+          <div className={classes.headerRow}>
+            <Avatar>
+              <img className={classes.icon} src={require("../Images/hikma-logo-no-text.png")} />
+            </Avatar>
+            <Typography variant="h5" style={{paddingLeft: 20}}>
+              Hikma Health Admin
+          </Typography>
+          </div>
+        </AppBar>
         <h3 className={classes.btn}>Welcome, {loggedInEmail}
           <Button
             variant="contained"
