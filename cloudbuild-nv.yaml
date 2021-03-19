@@ -4,5 +4,9 @@ steps:
           '--build-arg', 'app_env_arg=prod',
           '--build-arg', 'instance_url_arg=${_INSTANCE_URL}',
           '.' ]
+- name: 'gcr.io/cloud-builders/kubectl'
+  env: ['CLOUDSDK_COMPUTE_ZONE=southamerica-east1-a', 'CLOUDSDK_CONTAINER_CLUSTER=nv-cluster']
+  args: ['set', 'image', 'deployment/nv-admin-app',
+          'admin-app=gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA-nv']
 images:
 - 'gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA-nv'
