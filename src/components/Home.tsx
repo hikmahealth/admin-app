@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import User from '../types/User'
 import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, ListItemIcon, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Avatar, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -61,8 +61,6 @@ const Home = (props: any) => {
   const [token, setToken] = useState(getToken);
   const [users, setUsers] = useState([]);
   const [deleteUserEmail, setDeleteUserEmail] = useState('');
-  const [fileChosen, setFileChosen] = useState();
-  const uploadInput: any = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getUsers().then((response: any) => {
@@ -158,25 +156,6 @@ const Home = (props: any) => {
     return await response.json();
   }
 
-  const handleUploadImage = () => {
-    const data = new FormData();
-    if (!!fileChosen) {
-      data.append('file', fileChosen);
-    }
-
-    fetch(`${process.env.REACT_APP_INSTANCE_URL}/admin_api/upload`, {
-      method: 'POST',
-      headers: {
-        Authorization: token
-      },
-      body: data,
-    }).then((response) => {
-      if (response.status === 200) {
-        setFileChosen(null)
-      }
-    });
-  }
-
   const UserList = () => {
     const listItems = users.map((user: User) => {
       return (
@@ -199,47 +178,6 @@ const Home = (props: any) => {
     })
     return (
       <List className={classes.root}>{listItems}</List>
-    )
-  }
-
-  const FileUpload = () => {
-    return (
-      <div>
-        <Button
-          variant="contained"
-          size="large"
-          color="default"
-          className={classes.btn}
-          component="label">
-          Upload Patient Data
-        <input type="file" ref={uploadInput} onInput={() => setFileChosen(uploadInput.current.files[0])} style={{ display: 'none' }} />
-
-        </Button>
-
-
-        {!!fileChosen ? <label>{fileChosen.name}</label> : <div />}
-
-        {!!fileChosen ?
-          <div>
-            <Button
-              variant="contained"
-              size="small"
-              color="default"
-              className={classes.btn}
-              onClick={() => setFileChosen(null)}>
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              color="default"
-              className={classes.btn}
-              onClick={handleUploadImage}>
-              Upload
-            </Button>
-          </div>
-          : <div />}
-      </div>
     )
   }
 
@@ -266,7 +204,6 @@ const Home = (props: any) => {
             Logout
         </Button>
         </h3>
-        <FileUpload />
         <div className={classes.btnRowContainer}>
           <Button
             variant="contained"
