@@ -59,6 +59,7 @@ const PatientExport = (props: any) => {
   const [surname, setSurname] = useState('');
   const [country, setCountry] = useState('');
   const [hometown, setHometown] = useState('');
+  let today = new Date();
 
   useEffect(() => {
     getPatients().then((response: any) => {
@@ -140,7 +141,8 @@ const PatientExport = (props: any) => {
     }).then((response) => {
       return response.blob()
     }).then(blob => {
-      download(blob)
+      let lastIndex = patientId.lastIndexOf('-')
+      download(blob, today.toISOString().split('T')[0] + patientId.substr(lastIndex))
     })
   }
 
