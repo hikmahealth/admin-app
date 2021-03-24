@@ -125,7 +125,7 @@ const PatientExport = (props: any) => {
     }).then((response) => {
       return response.blob()
     }).then(blob => {
-      download(blob)
+      download(blob, today.toISOString().split('T')[0])
     })
   }
 
