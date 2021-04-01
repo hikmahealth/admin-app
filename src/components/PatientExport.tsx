@@ -191,7 +191,7 @@ const PatientExport = (props: any) => {
             color="default"
             className={classes.btnRow}
             onClick={() => handleExportAllPatients()}>
-            Export All Patients
+            Export All Patients ({patients.length})
         </Button>
         </div>
         <h3 className={classes.title}>Patient Search
