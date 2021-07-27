@@ -14,8 +14,8 @@ Fork the admin app to your organization on github.
 Change all instances of `${process.env.REACT_APP_INSTANCE_URL}` to `http://[your_ip]:8080`
 
 Open a terminal in the frontend project, and
-### `npm install`
-### `npm start`
+`npm install`
+`npm start`
 The app will run in development mode. Open http://localhost:3000 to view it in the browser.
 
 Login with the local user that you created during the backend repository setup
@@ -25,11 +25,12 @@ Deployment on GCP
 In cloudbuild.yaml:
 Remove the following lines:
 
-###` 
+``` 
 name: 'gcr.io/cloud-builders/kubectl'
 env: ['CLOUDSDK_COMPUTE_ZONE=us-east1-b', 'CLOUDSDK_CONTAINER_CLUSTER=demo-cluster]
 args: ['set', 'image', 'deployment/demo-admin-app',
-       'admin-app=gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA']`
+       'admin-app=gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA']
+```
 
 
 This deployment does not exist yet, and we can’t make deployment until we create the image, so we must add in the automatic deployment step after the initial deployment.
@@ -52,11 +53,12 @@ Go to domains.google.com and add a new DNS Resource Record, like you did for the
 
 Lastly, using the correct compute zone, cluster name, deployment name, container name, and image, add the following lines back into the cloudbuild file:
 
-###` 
+``` 
 name: 'gcr.io/cloud-builders/kubectl'
 env: ['CLOUDSDK_COMPUTE_ZONE=us-east1-b', 'CLOUDSDK_CONTAINER_CLUSTER=demo-cluster]
 args: ['set', 'image', 'deployment/demo-admin-app',
-       'admin-app=gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA']`
+       'admin-app=gcr.io/$PROJECT_ID/admin-app:$COMMIT_SHA']
+```
 
 Commit and push to master for build trigger and deployment to execute
 
