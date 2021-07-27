@@ -14,8 +14,12 @@ Fork the admin app to your organization on github.
 Change all instances of `${process.env.REACT_APP_INSTANCE_URL}` to `http://[your_ip]:8080`
 
 Open a terminal in the frontend project, and
-```npm install```
-```npm start```
+```
+npm install
+```
+```
+npm start
+```
 The app will run in development mode. Open http://localhost:3000 to view it in the browser.
 
 Login with the local user that you created during the backend repository setup
